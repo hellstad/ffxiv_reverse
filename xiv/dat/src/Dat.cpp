@@ -97,6 +97,7 @@ std::unique_ptr<File> Dat::get_file(uint32_t i_offset)
             output_file->_type = FileType::standard;
 
             uint32_t number_of_blocks = extract<xiv_dat_logger, uint32_t>(_handle, "number_of_blocks");
+			XIV_DEBUG(xiv_dat_logger, "Number of blocks: " << number_of_blocks);
 
             // Just extract offset infos for the blocks to extract
             std::vector<DatStdFileBlockInfos> std_file_block_infos;
@@ -110,6 +111,7 @@ std::unique_ptr<File> Dat::get_file(uint32_t i_offset)
             // Extract each block
             for (auto& file_block_info: std_file_block_infos)
             {
+                XIV_DEBUG(xiv_dat_logger, "Extracty:: size: " << file_header.size << " - offset: " << file_block_info.offset );
                 extract_block(i_offset + file_header.size + file_block_info.offset, data_section);
             }
         }
@@ -147,6 +149,8 @@ std::unique_ptr<File> Dat::get_file(uint32_t i_offset)
 
         case FileType::texture:
         {
+            XIV_DEBUG(xiv_dat_logger, "Got texture! ");
+			
             output_file->_type = FileType::texture;
 
             // Extracts mipmap entries and the block sizes

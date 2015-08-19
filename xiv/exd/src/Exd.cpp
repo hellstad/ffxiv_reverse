@@ -9,6 +9,8 @@
 #include <xiv/exd/logger.h>
 #include <xiv/exd/Exh.h>
 
+#include <bitset>
+
 using xiv::utils::bparse::extract;
 
 XIV_STRUCT((xiv)(exd), ExdHeader,
@@ -109,6 +111,32 @@ Exd::Exd(const Exh& i_exh, const std::vector<std::unique_ptr<dat::File>>& i_file
                 case DataType::uint64:
                     fields.emplace_back(extract<xiv_exd_logger, uint64_t>(stream, "uint64_t", utils::log::Severity::trace, false));
                     break;
+
+			    // And now, the stupid bitfields
+				case DataType::bit1:
+					fields.emplace_back(extract<xiv_exd_logger, int8_t>(stream, "bit1", utils::log::Severity::trace, false));
+					break;
+				case DataType::bit2:
+					fields.emplace_back(extract<xiv_exd_logger, int8_t>(stream, "bit2", utils::log::Severity::trace, false));
+					break;
+				case DataType::bit3:
+					fields.emplace_back(extract<xiv_exd_logger, int8_t>(stream, "bit3", utils::log::Severity::trace, false));
+					break;
+				case DataType::bit4:
+					fields.emplace_back(extract<xiv_exd_logger, int8_t>(stream, "bit4", utils::log::Severity::trace, false));
+					break;
+				case DataType::bit5:
+					fields.emplace_back(extract<xiv_exd_logger, int8_t>(stream, "bit5", utils::log::Severity::trace, false));
+					break;
+				case DataType::bit6:
+					fields.emplace_back(extract<xiv_exd_logger, int8_t>(stream, "uint64_t", utils::log::Severity::trace, false));
+					break;
+				case DataType::bit7:
+					fields.emplace_back(extract<xiv_exd_logger, int8_t>(stream, "uint64_t", utils::log::Severity::trace, false));
+					break;
+				case DataType::bit8:
+					fields.emplace_back(extract<xiv_exd_logger, int8_t>(stream, "uint64_t", utils::log::Severity::trace, false));
+					break;
 
                 default:
                     throw std::runtime_error("Unknown DataType: " + std::to_string(static_cast<uint16_t>(member_entry.second.type)));

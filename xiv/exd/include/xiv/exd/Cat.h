@@ -16,7 +16,8 @@ XIV_ENUM((xiv)(exd), Language, uint16_t,
          XIV_VALUE(en,   2)
          XIV_VALUE(de,   3)
          XIV_VALUE(fr,   4)
-         XIV_VALUE(chs,  5));
+         XIV_VALUE(chs,  5)
+         XIV_VALUE(unk,  7));
 
 namespace xiv
 {

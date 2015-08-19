@@ -15,7 +15,15 @@ XIV_ENUM((xiv)(exd), DataType, uint16_t,
          XIV_VALUE(int32,    6)
          XIV_VALUE(uint32,   7)
          XIV_VALUE(float32,  9)
-         XIV_VALUE(uint64,   11));
+         XIV_VALUE(uint64,   11)
+         XIV_VALUE(bit1,     25)
+         XIV_VALUE(bit2,     26)
+         XIV_VALUE(bit3,     27)
+         XIV_VALUE(bit4,     28)
+         XIV_VALUE(bit5,     29)
+         XIV_VALUE(bit6,     30)
+         XIV_VALUE(bit7,     31)
+         XIV_VALUE(bit8,     32));
 
 XIV_STRUCT((xiv)(exd), ExhHeader,
            XIV_MEM_ARR(char, magic, 0x4)

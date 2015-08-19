@@ -51,9 +51,9 @@ GameData::GameData(const boost::filesystem::path& i_path) try :
         auto filename = it->path().filename().string();
 
         // If it contains ".win32.index" this is most likely a hit for a category
-        if(filename.find(".win32.index") != std::string::npos)
+		if ((filename.find(".win32.index") != std::string::npos) && (filename.find(".win32.index2") == std::string::npos))
         {
-            // Format of indexes is XX0000.win32.index, so fetch the hex number for category number
+            // Format of indexes is XX000.win32.index, so fetch the hex number for category number
             std::istringstream iss(filename.substr(0, 2));
             uint32_t cat_nb;
             iss >> std::hex >> cat_nb;
@@ -92,6 +92,7 @@ std::unique_ptr<File> GameData::get_file(const std::string& i_path)
     uint32_t dir_hash;
     uint32_t filename_hash;
     get_hashes(i_path, dir_hash, filename_hash);
+	XIV_INFO(xiv_dat_logger, "Got hashes for " << i_path);
 
     return get_category_from_path(i_path).get_file(dir_hash, filename_hash);
 }
@@ -126,12 +127,15 @@ const Cat& GameData::get_category(uint32_t i_cat_nb)
     // If it exists and already instantiated return it
     if (cat_it->second)
     {
+		XIV_INFO(xiv_dat_logger, "get_category: already instantiated " << std::to_string(i_cat_nb));
         return *(cat_it->second);
     }
     else
     {
         // Else create it and return it
+		XIV_INFO(xiv_dat_logger, "get_category: creating " << std::to_string(i_cat_nb));
         create_category(i_cat_nb);
+		XIV_INFO(xiv_dat_logger, "get_category: created " << std::to_string(i_cat_nb));
         return *(_cats[i_cat_nb]);
     }
 }

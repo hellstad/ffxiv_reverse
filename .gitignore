@@ -1,0 +1,12 @@
+*.tlog
+*.bin
+*.cmake
+*.vcxproj
+Cmakefiles
+xiv/CMakeCache.txt
+*.ipch
+xiv/extractor/Debug/vc120.idb
+*.filters
+xiv/xiv.opensdf
+xiv/xiv.sdf
+xiv/extractor/ReadMe.txt

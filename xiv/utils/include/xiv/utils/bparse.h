@@ -204,7 +204,7 @@ void extract(std::istream& i_stream, StructType& o_struct, xiv::utils::log::Seve
 {
     read(i_stream, o_struct);
     reorder(o_struct);
-    XIV_DEBUG_LOG(LoggerType, i_severity, "Extracted: " << o_struct);
+    XIV_DEBUG_LOG(LoggerType, i_severity, "extract<i_stream, o_struct>: " << o_struct);
 }
 
 template <typename LoggerType, typename StructType>
@@ -227,7 +227,7 @@ StructType extract(std::istream& i_stream, const std::string& i_name, xiv::utils
     {
         temp_struct = byteswap(temp_struct);
     }
-    XIV_DEBUG_LOG(LoggerType, i_severity, "Extracted: [" << i_name << ":" << temp_struct << "]");
+    XIV_DEBUG_LOG(LoggerType, i_severity, "extract<i_stream, i_name>: [" << i_name << ":" << temp_struct << "]");
     return temp_struct;
 }
 
@@ -247,7 +247,7 @@ std::string extract_cstring(std::istream& i_stream, const std::string& i_name, x
 {
     std::string temp_str;
     std::getline(i_stream, temp_str, '\0');
-    XIV_DEBUG_LOG(LoggerType, i_severity, "Extracted: [" << i_name << ":" << temp_str << "]");
+    XIV_DEBUG_LOG(LoggerType, i_severity, "extract_cstring: [" << i_name << ":" << temp_str << "]");
     return temp_str;
 }
 

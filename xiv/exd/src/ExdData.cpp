@@ -36,6 +36,7 @@ ExdData::ExdData(dat::GameData& i_game_data) try :
         // Get only the cat_name
         auto sep = line.find(',');
         auto category = line.substr(0, sep);
+		XIV_INFO(xiv_exd_logger, "auto category is " << category);
 
         // Add to the list of category name
         // creates the empty category in the cats map
@@ -45,7 +46,9 @@ ExdData::ExdData(dat::GameData& i_game_data) try :
         _cat_creation_mutexes[category] = std::unique_ptr<std::mutex>(new std::mutex());
 
         std::getline(stream, line);
-    }
+		XIV_INFO(xiv_exd_logger, "line:" << line);
+	}
+	XIV_INFO(xiv_exd_logger, "ExdData initialized");
 }
 catch(std::exception& e)
 {
@@ -66,6 +69,7 @@ const std::vector<std::string>& ExdData::get_cat_names() const
 
 const Cat& ExdData::get_category(const std::string& i_cat_name)
 {
+	XIV_INFO(xiv_exd_logger, "Getting Category by Name: " + i_cat_name);
     // Get the category from its name
     auto cat_it = _cats.find(i_cat_name);
     if (cat_it == _cats.end())
@@ -76,11 +80,13 @@ const Cat& ExdData::get_category(const std::string& i_cat_name)
     if (cat_it->second)
     {
         // If valid return it
+        XIV_INFO(xiv_exd_logger, "ExdData::get_category: found it: " + i_cat_name);
         return *(cat_it->second);
     }
     else
     {
         // If not, create it and return it
+		XIV_INFO(xiv_exd_logger, "ExdData::get_category: creating it: " + i_cat_name);
         create_category(i_cat_name);
         return *(_cats[i_cat_name]);
     }
@@ -88,11 +94,13 @@ const Cat& ExdData::get_category(const std::string& i_cat_name)
 
 void ExdData::create_category(const std::string& i_cat_name)
 {
+	XIV_INFO(xiv_exd_logger, "ExdData::create_category: creating it: " + i_cat_name);
     // Lock mutex in this scope
     std::lock_guard<std::mutex> lock(*(_cat_creation_mutexes[i_cat_name]));
     // Maybe after unlocking it has already been created, so check (most likely if it blocked)
     if (!_cats[i_cat_name])
     {
+		XIV_DEBUG(xiv_exd_logger, "ExdData::create_category: creating: " + i_cat_name);
         _cats[i_cat_name] = std::unique_ptr<Cat>(new Cat(_game_data, i_cat_name));
     }
 }
@@ -103,8 +111,11 @@ void ExdData::export_as_csvs(const boost::filesystem::path& i_output_path)
 
     for (auto& cat_name: get_cat_names())
     {
-        get_category(cat_name).export_as_csvs(csv_output_path);
-    }
+		XIV_INFO(xiv_exd_logger, "Getting Category [ExdData::export_as_csvs]: " + cat_name);
+		auto& catn = get_category(cat_name);
+		XIV_INFO(xiv_exd_logger, "Exporting Category: " + cat_name);
+	    catn.export_as_csvs(csv_output_path);
+	}
 }
 
 }

@@ -47,7 +47,9 @@ std::unique_ptr<File> Cat::get_file(uint32_t dir_hash, uint32_t filename_hash) c
 
     // Fetch the correct hash_table_entry for these hashes, from that request the file from the right dat file
     auto& hash_table_entry = get_index().get_hash_table_entry(dir_hash, filename_hash);
-    return _dats[hash_table_entry.dat_nb]->get_file(hash_table_entry.dat_offset);
+    auto ret = _dats[hash_table_entry.dat_nb]->get_file(hash_table_entry.dat_offset);
+    XIV_DEBUG(xiv_dat_logger, "Finished cat: " << _name);
+    return ret;
 }
 
 bool Cat::check_file_existence(uint32_t dir_hash, uint32_t filename_hash) const
